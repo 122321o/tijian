@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljq.backend.mapper.DepartmentMapper">
+    <update id="updateById">
+        UPDATE department
+        SET name = #{name}, is_active = #{isActive}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteById">
+        DELETE FROM department
+        WHERE id = #{id}
+    </delete>
+    <select id="findAllDepartment" resultType="com.ljq.backend.entity.Department">
+        SELECT id,name,is_active AS isActive
+        FROM department
+    </select>
+    <select id="findPageDepartment" resultType="com.ljq.backend.entity.Department">
+        SELECT id,name,is_active AS isActive
+        FROM department
+            <where>
+                <if test="name != null and name != ''">
+                    `name` like concat('%', #{name},'%')
+                </if>
+                <if test="isActive!=null">
+                    and is_active = #{isActive}
+                </if>
+            </where>
+    </select>
+    <select id="findById" resultType="com.ljq.backend.entity.Department">
+        SELECT * FROM department
+        WHERE id = #{id}
+    </select>
+    <select id="findByName" resultType="com.ljq.backend.entity.Department">
+        SELECT * FROM department
+        WHERE name = #{name}
+    </select>
+</mapper>

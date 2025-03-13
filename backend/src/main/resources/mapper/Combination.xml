@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljq.backend.mapper.CombinationMapper">
+    <update id="updateById">
+        UPDATE combination
+        SET
+        <if test="name != null">name = #{name},</if>
+        <if test="isActive != null">is_active = #{isActive},</if>
+        <if test="gender != null">gender = #{gender},</if>
+        <if test="price != null">price = #{price},</if>
+        <if test="departmentId != null">department_id = #{departmentId}</if>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM combination
+        WHERE id = #{id}
+    </delete>
+
+    <select id="findAllCombination" resultType="com.ljq.backend.entity.Combination">
+        SELECT id, name, is_active AS isActive, gender, price, department_id AS departmentId
+        FROM combination
+    </select>
+
+    <select id="findPageCombination" resultType="com.ljq.backend.dto.CombinationPageDTO">
+        SELECT
+        c.id,
+        c.name,
+        dp.name AS departmentName,
+        c.gender,
+        c.price,
+        c.is_active AS isActive
+        FROM combination c
+        JOIN department dp ON c.department_id = dp.id
+        <where>
+            <if test="departmentId != null">
+                c.department_id = #{departmentId}
+            </if>
+            <if test="isActive != null">
+                AND c.is_active = #{isActive}
+            </if>
+            <if test="name != null and name != ''">
+                AND c.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+    <select id="findById" resultType="com.ljq.backend.entity.Combination">
+        SELECT id, name, is_active AS isActive, gender, price, department_id AS departmentId
+        FROM Combination
+        WHERE id = #{id}
+    </select>
+    <select id="findAvailableDetails" resultType="com.ljq.backend.entity.Detail">
+        SELECT d.*
+        FROM detail d
+        WHERE d.department_id = #{departmentId}
+          AND d.id NOT IN (
+            SELECT cd.detail_id
+            FROM combination_detail cd
+            WHERE cd.combination_id = #{combinationId}
+        )
+    </select>
+
+</mapper>

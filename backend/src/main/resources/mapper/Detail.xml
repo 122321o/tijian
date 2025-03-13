@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljq.backend.mapper.DetailMapper">
+    <update id="updateById">
+        UPDATE detail
+        SET
+        <if test="name != null">name = #{name},</if>
+        <if test="gender != null">gender = #{gender},</if>
+        <if test="price != null">price = #{price},</if>
+        <if test="departmentId != null">department_id = #{departmentId}</if>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM detail
+        WHERE id = #{id}
+    </delete>
+
+    <select id="findAllDetail" resultType="com.ljq.backend.entity.Detail">
+        SELECT id, name, is_active AS isActive, gender, price, department_id AS departmentId
+        FROM detail
+    </select>
+
+    <select id="findPageDetail" resultType="com.ljq.backend.dto.DetailPageDTO">
+        SELECT
+        d.id,
+        d.name,
+        dp.name AS departmentName,
+        d.gender,
+        d.price,
+        d.is_active AS isActive
+        FROM detail d
+        JOIN department dp ON d.department_id = dp.id
+        <where>
+            <if test="departmentId != null">
+                d.department_id = #{departmentId}
+            </if>
+            <if test="id != null">
+                AND d.id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                AND d.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+
+</mapper>

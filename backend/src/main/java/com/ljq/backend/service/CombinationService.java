@@ -1,6 +1,7 @@
 package com.ljq.backend.service;
 
 import com.github.pagehelper.PageInfo;
+import com.ljq.backend.dto.DetailDTO;
 import com.ljq.backend.dto.PageDTO;
 import com.ljq.backend.dto.request.CombinationRequest;
 import com.ljq.backend.entity.Combination;
@@ -18,5 +19,9 @@ public interface CombinationService {
 
     void delete(Integer id);
 
-    List<Detail> findAvailableDetails(Integer id);
+    List<DetailDTO> findAvailableDetails(Integer combinationId);
+
+    List<DetailDTO> findSelectedItems(Integer combinationId);
+
+    void add(Combination combination);
 }

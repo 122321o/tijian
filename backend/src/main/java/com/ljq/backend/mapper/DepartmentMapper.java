@@ -19,4 +19,6 @@ public interface DepartmentMapper {
     Department findById(Integer id);
 
     Department findByName(String name);
+
+    void insert(Department department);
 }

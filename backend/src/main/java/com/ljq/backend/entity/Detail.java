@@ -4,10 +4,10 @@ import lombok.Data;
 
 @Data
 public class Detail {
-    private int id;
+    private Integer id;
     private String name;
     private boolean gender;
     private Double price;
-    private int departmentId;
+    private Integer departmentId;
 
 }

@@ -3,6 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ljq.backend.mapper.DetailMapper">
+    <insert id="insert">
+        INSERT INTO detail (name, gender, price, department_id)
+        VALUES (#{name}, #{gender}, #{price}, #{departmentId})
+    </insert>
+
     <update id="updateById">
         UPDATE detail
         SET

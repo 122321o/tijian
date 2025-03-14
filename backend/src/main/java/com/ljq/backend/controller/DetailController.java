@@ -3,6 +3,8 @@ package com.ljq.backend.controller;
 import com.ljq.backend.common.Result;
 import com.ljq.backend.dto.DetailPageDTO;
 import com.ljq.backend.dto.request.DetailRequest;
+import com.ljq.backend.entity.Department;
+import com.ljq.backend.entity.Detail;
 import com.ljq.backend.service.DetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,13 @@ public class DetailController {
     @PostMapping("/delete/{id}")
     public Result deleteById(@PathVariable Integer id) {
         detailService.delete(id);
+        return Result.success();
+    }
+
+    // 新增明细
+    @PostMapping("/add")
+    public Result addDepartment(@RequestBody Detail detail) {
+        detailService.addDetail(detail);
         return Result.success();
     }
 }

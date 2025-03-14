@@ -3,7 +3,7 @@ package com.ljq.backend.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ljq.backend.dto.DetailPageDTO;
-import com.ljq.backend.dto.DetailUpdateDTO;
+import com.ljq.backend.dto.DetailDTO;
 import com.ljq.backend.dto.PageDTO;
 import com.ljq.backend.dto.request.DetailRequest;
 import com.ljq.backend.entity.Department;
@@ -45,7 +45,7 @@ public class DetailServiceImpl implements DetailService {
         if (department == null) {
             throw new RuntimeException("科室名称不存在");
         }
-        DetailUpdateDTO dto = new DetailUpdateDTO();
+        DetailDTO dto = new DetailDTO();
         BeanUtils.copyProperties(request, dto);
         dto.setDepartmentId(department.getId());
         detailMapper.updateById(dto);
@@ -54,5 +54,10 @@ public class DetailServiceImpl implements DetailService {
     @Override
     public void delete(Integer id) {
         detailMapper.deleteById(id);
+    }
+
+    @Override
+    public void addDetail(Detail detail) {
+        detailMapper.insert(detail);
     }
 }

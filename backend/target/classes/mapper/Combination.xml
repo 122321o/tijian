@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ljq.backend.mapper.CombinationMapper">
+    <insert id="insert">
+        INSERT INTO combination (name, department_id, gender, is_active, price)
+        VALUES (#{name}, #{departmentId}, #{gender}, #{isActive}, #{price})
+    </insert>
     <update id="updateById">
         UPDATE combination
         SET
@@ -51,11 +55,25 @@
         FROM Combination
         WHERE id = #{id}
     </select>
-    <select id="findAvailableDetails" resultType="com.ljq.backend.entity.Detail">
-        SELECT d.*
+    <select id="findAvailableDetails" resultType="com.ljq.backend.dto.DetailDTO">
+        SELECT d.id, d.name, d.is_active AS isActive, d.gender, d.price, d.department_id AS departmentId,department.name As departmentName
         FROM detail d
+        LEFT JOIN department
+        ON d.department_id = department.id
         WHERE d.department_id = #{departmentId}
           AND d.id NOT IN (
+            SELECT cd.detail_id
+            FROM combination_detail cd
+            WHERE cd.combination_id = #{combinationId}
+        )
+    </select>
+    <select id="findDetailsByComId" resultType="com.ljq.backend.dto.DetailDTO">
+        SELECT d.id, d.name, d.is_active AS isActive, d.gender, d.price, d.department_id AS departmentId,department.name As departmentName
+        FROM detail d
+        LEFT JOIN department
+        ON d.department_id = department.id
+        WHERE d.department_id = #{departmentId}
+          AND d.id IN (
             SELECT cd.detail_id
             FROM combination_detail cd
             WHERE cd.combination_id = #{combinationId}

@@ -1,6 +1,7 @@
 package com.ljq.backend.mapper;
 
-import com.ljq.backend.dto.CombinationUpdateDTO;
+import com.ljq.backend.dto.CombinationDTO;
+import com.ljq.backend.dto.DetailDTO;
 import com.ljq.backend.dto.PageDTO;
 import com.ljq.backend.entity.Combination;
 import com.ljq.backend.entity.Detail;
@@ -14,11 +15,15 @@ public interface CombinationMapper {
 
     List<PageDTO> findPageCombination(PageDTO pageDTO);
 
-    void updateById(CombinationUpdateDTO dto);
+    void updateById(CombinationDTO dto);
 
     void deleteById(Integer id);
 
     Combination findById(Integer id);
 
-    List<Detail> findAvailableDetails(Integer departmentId, Integer combinationId);
+    List<DetailDTO> findAvailableDetails(Integer departmentId, Integer combinationId);
+
+    List<DetailDTO> findDetailsByComId(Integer combinationId);
+
+    void insert(Combination combination);
 }

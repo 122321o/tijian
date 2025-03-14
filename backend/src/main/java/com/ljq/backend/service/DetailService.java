@@ -16,4 +16,6 @@ public interface DetailService {
     void update(DetailRequest request);
 
     void delete(Integer id);
+
+    void addDetail(Detail detail);
 }

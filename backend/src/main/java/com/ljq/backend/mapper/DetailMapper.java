@@ -1,6 +1,6 @@
 package com.ljq.backend.mapper;
 
-import com.ljq.backend.dto.DetailUpdateDTO;
+import com.ljq.backend.dto.DetailDTO;
 import com.ljq.backend.dto.PageDTO;
 import com.ljq.backend.entity.Detail;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,7 +13,9 @@ public interface DetailMapper {
 
     List<PageDTO> findPageDetail(PageDTO pageDTO);
 
-    void updateById(DetailUpdateDTO dto);
+    void updateById(DetailDTO dto);
 
     void deleteById(Integer id);
+
+    void insert(Detail detail);
 }

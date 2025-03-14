@@ -3,7 +3,8 @@ package com.ljq.backend.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ljq.backend.dto.CombinationPageDTO;
-import com.ljq.backend.dto.CombinationUpdateDTO;
+import com.ljq.backend.dto.CombinationDTO;
+import com.ljq.backend.dto.DetailDTO;
 import com.ljq.backend.dto.PageDTO;
 import com.ljq.backend.dto.request.CombinationRequest;
 import com.ljq.backend.entity.Department;
@@ -12,7 +13,6 @@ import com.ljq.backend.entity.Detail;
 import com.ljq.backend.mapper.DepartmentMapper;
 import com.ljq.backend.mapper.CombinationMapper;
 import com.ljq.backend.mapper.DetailMapper;
-import com.ljq.backend.service.CombinationService;
 import com.ljq.backend.service.CombinationService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class CombinationServiceImpl implements CombinationService {
         if (department == null) {
             throw new RuntimeException("科室名称不存在");
         }
-        CombinationUpdateDTO dto = new CombinationUpdateDTO();
+        CombinationDTO dto = new CombinationDTO();
         BeanUtils.copyProperties(request, dto);
         dto.setDepartmentId(department.getId());
         combinationMapper.updateById(dto);
@@ -63,9 +63,9 @@ public class CombinationServiceImpl implements CombinationService {
     }
 
     @Override
-    public List<Detail> findAvailableDetails(Integer id) {
+    public List<DetailDTO> findAvailableDetails(Integer combinationId) {
         // 1. 根据组合 ID 查找组合信息
-        Combination combination = combinationMapper.findById(id);
+        Combination combination = combinationMapper.findById(combinationId);
         if (combination == null) {
             throw new RuntimeException("组合不存在");
         }
@@ -73,6 +73,22 @@ public class CombinationServiceImpl implements CombinationService {
         System.out.println(combination.getDepartmentId());
 
         // 2. 查找符合条件的明细并排除已关联的
-        return combinationMapper.findAvailableDetails(combination.getDepartmentId(),id);
+        return combinationMapper.findAvailableDetails(combination.getDepartmentId(),combinationId);
+    }
+
+    /**
+     * 根据组合Id获取该组合的所有明细项目,返回所有明细项目
+     * @param combinationId
+     * @return
+     */
+    @Override
+    public List<DetailDTO> findSelectedItems(Integer combinationId) {
+        return combinationMapper.findDetailsByComId(combinationId);
+
+    }
+
+    @Override
+    public void add(Combination combination) {
+        combinationMapper.insert(combination);
     }
 }

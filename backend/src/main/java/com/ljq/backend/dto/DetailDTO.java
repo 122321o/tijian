@@ -3,10 +3,9 @@ package com.ljq.backend.dto;
 import lombok.Data;
 
 @Data
-public class CombinationUpdateDTO {
+public class DetailDTO {
     private Integer id;               // 项目编号
     private String name;              // 项目名称
-    private Integer isActive;
     private String departmentName;    // 科室名称
     private Integer departmentId;    // 科室编号
     private Integer gender;           // 性别

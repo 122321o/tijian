@@ -38,4 +38,11 @@ public class DepartmentController {
         return Result.success();
     }
 
+    // 新增科室
+    @PostMapping("/add")
+    public Result addDepartment(@RequestBody Department department) {
+        departmentService.addDepartment(department);
+        return Result.success();
+    }
+
 }

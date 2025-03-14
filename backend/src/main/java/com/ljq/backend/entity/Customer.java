@@ -6,10 +6,10 @@ import java.time.LocalDate;
 
 @Data
 public class Customer {
-    private int id;
+    private Integer id;
     private String name;
     private String idCard;
-    private boolean gender;
+    private Integer gender;
     private LocalDate birthDate;
     private String phone;
 

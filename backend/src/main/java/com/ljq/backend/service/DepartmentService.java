@@ -15,4 +15,6 @@ public interface DepartmentService {
     void update(Department department);
 
     void delete(Integer id);
+
+    void addDepartment(Department department);
 }

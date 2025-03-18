@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljq.backend.mapper.PackageCombinationMapper">
+    <!-- 批量插入 -->
+    <insert id="batchInsert">
+        INSERT INTO package_combination (package_id, combination_id)
+        VALUES
+        <foreach collection="list" item="combination" separator=",">
+            (#{combination.packageId}, #{combination.combinationId})
+        </foreach>
+    </insert>
+
+    <!-- 按组合ID和项目ID列表删除 -->
+    <delete id="deleteByCombinationAndDetails">
+        DELETE FROM package_combination
+        WHERE package_id = #{packageId}
+        AND combination_id IN
+        <foreach collection="combinationIds" item="combinationId" open="(" separator="," close=")">
+            #{combinationId}
+        </foreach>
+    </delete>
+
+    <!-- 查询组合关联的项目ID列表 -->
+    <select id="findCombinationIdsByPackageId" resultType="java.lang.Integer">
+        SELECT combination_id
+        FROM package_combination
+        WHERE package_id = #{packageId}
+    </select>
+
+
+</mapper>

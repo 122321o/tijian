@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljq.backend.mapper.CustomerMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO customer
+            (name, id_card, gender, age, birth_date, phone, address, marriage)
+        VALUES
+            (#{name}, #{idCard}, #{gender}, #{age}, #{birthDate}, #{phone}, #{address}, #{marriage})
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM customer WHERE id = #{id}
+    </delete>
+
+    <update id="updateById">
+        UPDATE customer SET
+                            name = #{name},
+                            id_card = #{idCard},
+                            gender = #{gender},
+                            age = #{age},
+                            birth_date = #{birthDate},
+                            phone = #{phone},
+                            address = #{address},
+                            marriage = #{marriage}
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" resultType="com.ljq.backend.entity.Customer">
+        SELECT * FROM customer WHERE id = #{id}
+    </select>
+
+    <select id="selectAll" resultType="com.ljq.backend.entity.Customer">
+        SELECT * FROM customer
+    </select>
+    <select id="findPageCustomer" resultType="com.ljq.backend.entity.Customer">
+        SELECT id,
+               name,
+               id_card,
+               gender,
+               age,
+               birth_date AS birthDate,
+               phone,
+               address,
+               marriage
+        FROM customer
+    </select>
+</mapper>

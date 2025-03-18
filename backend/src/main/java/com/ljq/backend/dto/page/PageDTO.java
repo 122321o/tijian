@@ -1,4 +1,4 @@
-package com.ljq.backend.dto;
+package com.ljq.backend.dto.page;
 
 import lombok.Data;
 

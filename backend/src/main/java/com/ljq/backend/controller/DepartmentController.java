@@ -1,13 +1,11 @@
 package com.ljq.backend.controller;
 
 import com.ljq.backend.common.Result;
-import com.ljq.backend.dto.DepartmentPageDTO;
+import com.ljq.backend.dto.page.DepartmentPageDTO;
 import com.ljq.backend.entity.Department;
 import com.ljq.backend.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/department")
 @RestController
@@ -38,7 +36,6 @@ public class DepartmentController {
         return Result.success();
     }
 
-    // 新增科室
     @PostMapping("/add")
     public Result addDepartment(@RequestBody Department department) {
         departmentService.addDepartment(department);

@@ -2,9 +2,8 @@ package com.ljq.backend.mapper;
 
 import com.ljq.backend.dto.CombinationDTO;
 import com.ljq.backend.dto.DetailDTO;
-import com.ljq.backend.dto.PageDTO;
+import com.ljq.backend.dto.page.PageDTO;
 import com.ljq.backend.entity.Combination;
-import com.ljq.backend.entity.Detail;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public interface CombinationMapper {
 
     List<DetailDTO> findAvailableDetails(Integer departmentId, Integer combinationId);
 
-    List<DetailDTO> findDetailsByComId(Integer combinationId);
+    List<DetailDTO> findSelectedItems(Integer departmentId, Integer combinationId);
 
     void insert(Combination combination);
 }

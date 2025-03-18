@@ -28,7 +28,7 @@
         FROM combination
     </select>
 
-    <select id="findPageCombination" resultType="com.ljq.backend.dto.CombinationPageDTO">
+    <select id="findPageCombination" resultType="com.ljq.backend.dto.page.CombinationPageDTO">
         SELECT
         c.id,
         c.name,
@@ -67,7 +67,7 @@
             WHERE cd.combination_id = #{combinationId}
         )
     </select>
-    <select id="findDetailsByComId" resultType="com.ljq.backend.dto.DetailDTO">
+    <select id="findSelectedItems" resultType="com.ljq.backend.dto.DetailDTO">
         SELECT d.id, d.name, d.is_active AS isActive, d.gender, d.price, d.department_id AS departmentId,department.name As departmentName
         FROM detail d
         LEFT JOIN department

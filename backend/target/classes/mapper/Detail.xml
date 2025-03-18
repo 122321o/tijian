@@ -28,7 +28,7 @@
         FROM detail
     </select>
 
-    <select id="findPageDetail" resultType="com.ljq.backend.dto.DetailPageDTO">
+    <select id="findPageDetail" resultType="com.ljq.backend.dto.page.DetailPageDTO">
         SELECT
         d.id,
         d.name,

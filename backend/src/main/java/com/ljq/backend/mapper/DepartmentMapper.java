@@ -1,6 +1,6 @@
 package com.ljq.backend.mapper;
 
-import com.ljq.backend.dto.PageDTO;
+import com.ljq.backend.dto.page.PageDTO;
 import com.ljq.backend.entity.Department;
 import org.apache.ibatis.annotations.Mapper;
 

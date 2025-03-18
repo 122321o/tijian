@@ -1,9 +1,7 @@
 package com.ljq.backend.controller;
 
 import com.ljq.backend.common.Result;
-import com.ljq.backend.dto.DetailPageDTO;
 import com.ljq.backend.dto.request.DetailRequest;
-import com.ljq.backend.entity.Department;
 import com.ljq.backend.entity.Detail;
 import com.ljq.backend.service.DetailService;
 import org.springframework.beans.factory.annotation.Autowired;

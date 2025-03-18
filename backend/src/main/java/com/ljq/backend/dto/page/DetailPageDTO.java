@@ -1,12 +1,11 @@
-package com.ljq.backend.dto;
+package com.ljq.backend.dto.page;
 
 import lombok.Data;
 
 @Data
-public class CombinationPageDTO extends PageDTO {
+public class DetailPageDTO extends PageDTO {
     private Integer id;
     private String name;
-    private Integer isActive;
     private String departmentName; // 科室名称（来自关联表）
     private Integer departmentId;
     private Integer gender;         // "男" 或 "女"

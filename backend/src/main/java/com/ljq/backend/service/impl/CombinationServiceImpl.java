@@ -2,14 +2,13 @@ package com.ljq.backend.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.ljq.backend.dto.CombinationPageDTO;
+import com.ljq.backend.dto.page.CombinationPageDTO;
 import com.ljq.backend.dto.CombinationDTO;
 import com.ljq.backend.dto.DetailDTO;
-import com.ljq.backend.dto.PageDTO;
+import com.ljq.backend.dto.page.PageDTO;
 import com.ljq.backend.dto.request.CombinationRequest;
 import com.ljq.backend.entity.Department;
 import com.ljq.backend.entity.Combination;
-import com.ljq.backend.entity.Detail;
 import com.ljq.backend.mapper.DepartmentMapper;
 import com.ljq.backend.mapper.CombinationMapper;
 import com.ljq.backend.mapper.DetailMapper;
@@ -69,8 +68,6 @@ public class CombinationServiceImpl implements CombinationService {
         if (combination == null) {
             throw new RuntimeException("组合不存在");
         }
-        System.out.println(combination);
-        System.out.println(combination.getDepartmentId());
 
         // 2. 查找符合条件的明细并排除已关联的
         return combinationMapper.findAvailableDetails(combination.getDepartmentId(),combinationId);
@@ -83,7 +80,14 @@ public class CombinationServiceImpl implements CombinationService {
      */
     @Override
     public List<DetailDTO> findSelectedItems(Integer combinationId) {
-        return combinationMapper.findDetailsByComId(combinationId);
+        // 1. 根据组合 ID 查找组合信息
+        Combination combination = combinationMapper.findById(combinationId);
+        if (combination == null) {
+            throw new RuntimeException("组合不存在");
+        }
+
+        // 2. 查找符合条件的明细查找已关联的
+        return combinationMapper.findSelectedItems(combination.getDepartmentId(),combinationId);
 
     }
 

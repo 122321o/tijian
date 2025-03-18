@@ -6,9 +6,9 @@ import java.math.BigDecimal;
 
 @Data
 public class Package {
-    private int id;
+    private Integer id;
     private String name;
-    private boolean gender;
+    private Integer isActive;
+    private Integer gender;
     private BigDecimal price;
-
 }

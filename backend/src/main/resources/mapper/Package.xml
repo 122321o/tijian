@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljq.backend.mapper.PackageMapper">
+    <select id="findAllPackages" resultType="com.ljq.backend.dto.PackageDTO">
+        SELECT id, is_active AS isActive, name, price, gender
+        FROM package
+        WHERE is_active = 1
+    </select>
+
+    <select id="findPagePackages" resultType="com.ljq.backend.dto.PackageDTO">
+        SELECT id, is_active AS isActive, name, price, gender
+        FROM package
+        WHERE name LIKE CONCAT('%', #{name}, '%')
+    </select>
+    <select id="findById" resultType="com.ljq.backend.dto.PackageDTO">
+        SELECT id, is_active AS isActive, name, price, gender
+        FROM package
+        WHERE id = #{packageId}
+    </select>
+
+    <select id="findSelectedItems" resultType="com.ljq.backend.dto.CombinationDTO">
+        SELECT c.id,
+               c.is_active     AS isActive,
+               c.name,
+               c.price,
+               c.gender,
+               c.department_id AS departmentId,
+               d.name          As departmentName
+        FROM Combination c
+                 LEFT JOIN department d
+                           ON c.department_id = d.id
+        WHERE c.id IN
+              (SELECT combination_id
+               FROM package_combination
+               WHERE package_id = #{packageId})
+    </select>
+    <select id="findAvailableDetails" resultType="com.ljq.backend.dto.CombinationDTO">
+        SELECT c.id,
+               c.is_active     AS isActive,
+               c.name,
+               c.price,
+               c.gender,
+               c.department_id AS departmentId,
+               d.name          As departmentName
+        FROM Combination c
+                 LEFT JOIN department d
+                           ON c.department_id = d.id
+        WHERE c.id NOT IN
+              (SELECT combination_id
+               FROM package_combination
+               WHERE package_id = #{packageId})
+    </select>
+    <select id="getCombinationsByPackageId" resultType="com.ljq.backend.dto.CombinationDTO">
+        SELECT id, name, price
+        FROM combination
+        WHERE id IN
+              (SELECT combination_id
+               FROM package_combination
+               WHERE package_id = #{packageId}) AND is_active = 1
+    </select>
+
+    <update id="updatePackage">
+        UPDATE package
+        SET name      = #{name},
+            is_active = #{isActive},
+            gender    = #{gender},
+            price     = #{price}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deletePackage">
+        DELETE
+        FROM package
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="addPackage">
+        INSERT INTO package (name, is_active, gender, price)
+        VALUES (#{name}, #{isActive}, #{gender}, #{price})
+    </insert>
+</mapper>

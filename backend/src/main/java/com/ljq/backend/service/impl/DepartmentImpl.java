@@ -2,7 +2,7 @@ package com.ljq.backend.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.ljq.backend.dto.PageDTO;
+import com.ljq.backend.dto.page.PageDTO;
 import com.ljq.backend.entity.Department;
 import com.ljq.backend.mapper.DepartmentMapper;
 import com.ljq.backend.service.DepartmentService;

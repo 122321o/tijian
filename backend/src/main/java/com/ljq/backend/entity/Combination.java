@@ -10,7 +10,7 @@ public class Combination {
     private String name;
     private Integer isActive;
     private Integer gender;
-    private Double price;
+    private BigDecimal price;
     private Integer departmentId;
 
 }

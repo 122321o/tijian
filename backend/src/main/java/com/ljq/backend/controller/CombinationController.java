@@ -60,8 +60,6 @@ public class CombinationController {
 
     @PostMapping("/updateSelectedDetails")
     public Result updateSelectedDetails(@RequestBody CombinationDetailUpdateDTO payload) {
-        System.out.println("==========================================================================================");
-        System.out.println(payload);
         combinationDetailService.updateSelectedDetails(payload.getCombinationId(), payload.getDetailIds());
         return Result.success();
     }

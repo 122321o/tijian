@@ -9,9 +9,10 @@ import java.util.List;
 
 public interface CustomerService {
     int addCustomer(Customer customer);
-    int deleteCustomer(Integer id);
+    int deleteCustomer(String id);
     int updateCustomer(Customer customer);
-    Customer getCustomerById(Integer id);
+    Customer getCustomerById(String id);
     List<Customer> findAllCustomer();
-    PageInfo<Customer> findPageCustomer(PageDTO pageDTO);
+    PageInfo<CustomerPageDTO> findPageCustomer(PageDTO pageDTO);
+    String generateCustomerId();
 }

@@ -7,8 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class Registration {
-    private Integer id; //体检编号
-    private Integer customerId; //客户ID
+    private String id; //体检编号
     private Integer packageId;  //套餐ID
     private BigDecimal price;  //套餐价格
     private LocalDateTime checkinTime;  //检查时间

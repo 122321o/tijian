@@ -24,31 +24,27 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public int deleteRegistration(Integer id) {
-        if (id == null || id <= 0) {
-            throw new BusinessException("ID参数错误");
-        }
+    public int deleteRegistration(String id) {
         return registrationMapper.deleteById(id);
     }
 
     @Override
     public int updateRegistration(Registration registration) {
-        if (registration.getId() == null || registration.getId() <= 0) {
-            throw new BusinessException("ID参数错误");
-        }
         return registrationMapper.updateById(registration);
     }
 
     @Override
-    public Registration getRegistrationById(Integer id) {
-        if (id == null || id <= 0) {
-            throw new BusinessException("ID参数错误");
-        }
+    public Registration getRegistrationById(String id) {
         return registrationMapper.selectById(id);
     }
 
     @Override
     public List<Registration> findAllRegistration() {
         return registrationMapper.selectAll();
+    }
+
+    @Override
+    public Registration findByCustomerId(String id) {
+        return registrationMapper.findByCustomerId(id);
     }
 }

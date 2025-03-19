@@ -5,15 +5,17 @@ import com.ljq.backend.dto.page.PageDTO;
 import com.ljq.backend.entity.Customer;
 import com.ljq.backend.entity.Department;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface CustomerMapper {
     int insert(Customer customer);
-    int deleteById(Integer id);
+    int deleteById(String id);
     int updateById(Customer customer);
-    Customer selectById(Integer id);
+    Customer selectById(String id);
     List<Customer> selectAll();
-    List<Customer> findPageCustomer(PageDTO pageDTO);
+    List<CustomerPageDTO> findPageCustomer(PageDTO pageDTO);
+    String getMaxCustomerIdByDate(@Param("datePrefix") String datePrefix);
 }

@@ -8,8 +8,11 @@ import java.util.List;
 @Mapper
 public interface RegistrationMapper {
     int insert(Registration registration);
-    int deleteById(Integer id);
+    int deleteById(String id);
     int updateById(Registration registration);
-    Registration selectById(Integer id);
+    Registration selectById(String id);
     List<Registration> selectAll();
+    void deleteByCustomerId(String id);
+
+    Registration findByCustomerId(String id);
 }

@@ -21,23 +21,28 @@ public class RegistrationController {
     }
 
     @DeleteMapping("/{id}")
-    public Result deleteRegistration(@PathVariable Integer id) {
+    public Result deleteRegistration(@PathVariable String id) {
         registrationService.deleteRegistration(id);
         return Result.success();
     }
 
-    @PutMapping("/update")
+    @PostMapping("/update")
     public Result updateRegistration(@RequestBody Registration registration) {
         return Result.success(registrationService.updateRegistration(registration));
     }
 
     @GetMapping("/{id}")
-    public Result getRegistration(@PathVariable Integer id) {
+    public Result getRegistration(@PathVariable String id) {
         return Result.success(registrationService.getRegistrationById(id));
     }
 
     @GetMapping("/findAll")
     public Result findAllRegistration() {
         return Result.success(registrationService.findAllRegistration());
+    }
+
+    @GetMapping("/findByCustomerId/{id}")
+    public Result findAllRegistration(@PathVariable String id) {
+        return Result.success(registrationService.findByCustomerId(id));
     }
 }

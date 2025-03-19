@@ -5,13 +5,15 @@
 <mapper namespace="com.ljq.backend.mapper.CustomerMapper">
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO customer
-            (name, id_card, gender, age, birth_date, phone, address, marriage)
+            (id,name, id_card, gender, age, birth_date, phone, address, marriage)
         VALUES
-            (#{name}, #{idCard}, #{gender}, #{age}, #{birthDate}, #{phone}, #{address}, #{marriage})
+            (#{id},#{name}, #{idCard}, #{gender}, #{age}, #{birthDate}, #{phone}, #{address}, #{marriage})
     </insert>
 
     <delete id="deleteById">
-        DELETE FROM customer WHERE id = #{id}
+        UPDATE customer
+        SET is_delete = 1
+        WHERE id = #{id}
     </delete>
 
     <update id="updateById">
@@ -28,16 +30,9 @@
     </update>
 
     <select id="selectById" resultType="com.ljq.backend.entity.Customer">
-        SELECT * FROM customer WHERE id = #{id}
-    </select>
-
-    <select id="selectAll" resultType="com.ljq.backend.entity.Customer">
-        SELECT * FROM customer
-    </select>
-    <select id="findPageCustomer" resultType="com.ljq.backend.entity.Customer">
         SELECT id,
                name,
-               id_card,
+               id_card AS idCard,
                gender,
                age,
                birth_date AS birthDate,
@@ -45,5 +40,50 @@
                address,
                marriage
         FROM customer
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectAll" resultType="com.ljq.backend.entity.Customer">
+        SELECT * FROM customer
+    </select>
+    <select id="findPageCustomer" resultType="com.ljq.backend.dto.page.CustomerPageDTO">
+        SELECT
+        c.id,
+        c.name,
+        id_card AS idCard,
+        c.gender,
+        age,
+        birth_date AS birthDate,
+        phone,
+        address,
+        marriage,
+        package_id AS packageId,
+        r.price,
+        checkin_time AS checkinTime,
+        status,
+        p.name AS packageName
+        FROM customer c
+        LEFT JOIN registration r ON c.id = r.id
+        LEFT JOIN package p ON r.package_id = p.id
+        <where>
+            c.is_delete = 0
+            <!-- 体检编号 -->
+            <if test="id != null and id != ''">
+                AND c.id LIKE CONCAT('%', #{id}, '%')
+            </if>
+            <!-- 客户姓名 -->
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <!-- 检查时间范围 -->
+            <if test="startDate != null and endDate != null">
+                AND checkin_time BETWEEN #{startDate} AND #{endDate}
+            </if>
+        </where>
+    </select>
+    <select id="getMaxCustomerIdByDate" resultType="java.lang.String">
+        SELECT MAX(id)
+        FROM customer
+        WHERE id LIKE CONCAT(#{datePrefix}, '%')
     </select>
 </mapper>

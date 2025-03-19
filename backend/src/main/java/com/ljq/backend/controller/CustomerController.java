@@ -4,8 +4,11 @@ import com.ljq.backend.common.Result;
 import com.ljq.backend.dto.page.CustomerPageDTO;
 import com.ljq.backend.entity.Customer;
 import com.ljq.backend.service.CustomerService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/customer")
@@ -14,24 +17,30 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping("/add")
+    @PostMapping("add")
     public Result addCustomer(@RequestBody Customer customer) {
         return Result.success(customerService.addCustomer(customer));
     }
 
-    @DeleteMapping("/{id}")
-    public Result deleteCustomer(@PathVariable Integer id) {
+    @GetMapping("getCustomerId")
+    public Result getCustomerId() {
+        return Result.success(customerService.generateCustomerId());
+    }
+
+    @PostMapping("delete")
+    public Result deleteCustomer(@RequestBody Map<String, String> request) {
+        String id = request.get("id");
         customerService.deleteCustomer(id);
         return Result.success();
     }
 
-    @PutMapping("update")
+    @PostMapping("update")
     public Result updateCustomer(@RequestBody Customer customer) {
         return Result.success(customerService.updateCustomer(customer));
     }
 
     @GetMapping("/{id}")
-    public Result getCustomer(@PathVariable Integer id) {
+    public Result getCustomer(@PathVariable String id) {
         return Result.success(customerService.getCustomerById(id));
     }
 
@@ -44,4 +53,6 @@ public class CustomerController {
     public Result findPageCustomer(@RequestBody CustomerPageDTO customerPageDTO) {
         return Result.success(customerService.findPageCustomer(customerPageDTO));
     }
+
+
 }

@@ -5,21 +5,24 @@
 <mapper namespace="com.ljq.backend.mapper.RegistrationMapper">
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO registration
-            (customer_id, package_id, price, checkin_time, status)
+            (id, package_id, price, checkin_time, status)
         VALUES
-            (#{customerId}, #{packageId}, #{price}, #{checkinTime}, #{status})
+            (#{id}, #{packageId}, #{price}, #{checkinTime}, #{status})
     </insert>
 
     <delete id="deleteById">
         DELETE FROM registration WHERE id = #{id}
     </delete>
+    <update id="deleteByCustomerId">
+        UPDATE registration
+        SET is_delete = 1
+        WHERE id = #{id}
+    </update>
 
     <update id="updateById">
         UPDATE registration SET
-                                customer_id = #{customerId},
                                 package_id = #{packageId},
                                 price = #{price},
-                                checkin_time = #{checkinTime},
                                 status = #{status}
         WHERE id = #{id}
     </update>
@@ -27,7 +30,6 @@
     <select id="selectById" resultType="com.ljq.backend.entity.Registration">
         SELECT
             id,
-            customer_id AS customerId,
             package_id AS packageId,
             price,
             checkin_time AS checkinTime,
@@ -39,11 +41,20 @@
     <select id="selectAll" resultType="com.ljq.backend.entity.Registration">
         SELECT
             id,
-            customer_id AS customerId,
             package_id AS packageId,
             price,
             checkin_time AS checkinTime,
             status
         FROM registration
+    </select>
+    <select id="findByCustomerId" resultType="com.ljq.backend.entity.Registration">
+        SELECT
+            id,
+            package_id AS packageId,
+            price,
+            checkin_time AS checkinTime,
+            status
+        FROM registration
+        WHERE id = #{id}
     </select>
 </mapper>

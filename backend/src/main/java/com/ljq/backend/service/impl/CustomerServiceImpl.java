@@ -7,19 +7,29 @@ import com.ljq.backend.dto.page.PageDTO;
 import com.ljq.backend.entity.Customer;
 import com.ljq.backend.exception.BusinessException;
 import com.ljq.backend.mapper.CustomerMapper;
+import com.ljq.backend.mapper.RegistrationMapper;
 import com.ljq.backend.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.regex.Pattern;
 
-// src/main/java/com/example/demo/service/impl/CustomerServiceImpl.java
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
-    private final CustomerMapper customerMapper;
+    @Autowired
+    private CustomerMapper customerMapper;
+
+    @Autowired
+    private RegistrationMapper registrationMapper;
+
 
     private void validateCustomer(Customer customer) {
         if (customer.getName() == null || customer.getName().trim().isEmpty()) {
@@ -42,6 +52,25 @@ public class CustomerServiceImpl implements CustomerService {
         return phone != null && phone.matches("^1[3-9]\\d{9}$");
     }
 
+    @Transactional
+    public String generateCustomerId() {
+        // 获取当前日期前缀，格式为 yyyyMMdd
+        String datePrefix = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+        // 查询数据库中当天最大的客户 ID
+        String maxId = customerMapper.getMaxCustomerIdByDate(datePrefix);
+
+        int nextSequence = 1; // 默认从 0001 开始
+        if (maxId != null && maxId.startsWith(datePrefix)) {
+            // 如果存在当天的记录，提取最后 4 位并加 1
+            String sequencePart = maxId.substring(8); // 提取最后 4 位
+            nextSequence = Integer.parseInt(sequencePart) + 1;
+        }
+
+        // 生成新的客户 ID，格式为 yyyyMMdd + 4 位序列号
+        return datePrefix + String.format("%04d", nextSequence);
+    }
+
     @Override
     public int addCustomer(Customer customer) {
         validateCustomer(customer);
@@ -49,27 +78,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public int deleteCustomer(Integer id) {
-        if (id == null || id <= 0) {
-            throw new BusinessException("ID参数错误");
-        }
+    public int deleteCustomer(String id) {
+        registrationMapper.deleteByCustomerId(id);
         return customerMapper.deleteById(id);
     }
 
     @Override
     public int updateCustomer(Customer customer) {
-        if (customer.getId() == null || customer.getId() <= 0) {
-            throw new BusinessException("ID参数错误");
-        }
         validateCustomer(customer);
         return customerMapper.updateById(customer);
     }
 
     @Override
-    public Customer getCustomerById(Integer id) {
-        if (id == null || id <= 0) {
-            throw new BusinessException("ID参数错误");
-        }
+    public Customer getCustomerById(String id) {
         return customerMapper.selectById(id);
     }
 
@@ -79,7 +100,23 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public PageInfo<Customer> findPageCustomer(PageDTO pageDTO) {
+    public PageInfo<CustomerPageDTO> findPageCustomer(PageDTO pageDTO) {
+        CustomerPageDTO customerPageDTO = (CustomerPageDTO) pageDTO;
+        LocalDateTime startDate = customerPageDTO.getStartDate();
+        LocalDateTime endDate = customerPageDTO.getEndDate();
+
+        // 如果 startDate 不为空，设置为当天的 00:00:00
+        if (startDate != null) {
+            startDate = startDate.toLocalDate().atStartOfDay(); // 转换为当天的 00:00:00
+            customerPageDTO.setStartDate(startDate);
+        }
+
+        // 如果 endDate 不为空，设置为当天的 23:59:59
+        if (endDate != null) {
+            endDate = endDate.toLocalDate().atTime(23, 59, 59); // 转换为当天的 23:59:59
+            customerPageDTO.setEndDate(endDate);
+        }
+
         PageHelper.startPage(pageDTO.getPageNum(), pageDTO.getPageSize());
         return new PageInfo<>(customerMapper.findPageCustomer(pageDTO));
     }

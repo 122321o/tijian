@@ -41,15 +41,32 @@ public class CustomerServiceImpl implements CustomerService {
         if (customer.getPhone() == null || !isValidPhone(customer.getPhone())) {
             throw new BusinessException("手机号格式不正确");
         }
+        if (customer.getGender() == null || (customer.getGender() != 0 && customer.getGender() != 1 && customer.getGender() != 2)) {
+            throw new BusinessException("客户性别格式不正确");
+        }
+        if (customer.getAge() == null || customer.getAge() < 0 || customer.getAge() > 120) {
+            throw new BusinessException("客户年龄应在0到120岁之间");
+        }
+        if (customer.getBirthDate() == null || customer.getBirthDate().isBefore(LocalDate.of(1900, 1, 1))) {
+            throw new BusinessException("客户出生日期应在1900年至今之间");
+        }
+        if (customer.getMarriage() == null || (customer.getMarriage() != 0 && customer.getMarriage() != 1)) {
+            throw new BusinessException("客户婚姻状态格式不正确");
+        }
     }
 
     private boolean isValidIdCard(String idCard) {
-        // 实现具体的身份证校验逻辑
         return idCard != null && idCard.matches("\\d{17}[\\dXx]");
     }
 
     private boolean isValidPhone(String phone) {
         return phone != null && phone.matches("^1[3-9]\\d{9}$");
+    }
+
+    private void validateGender(Integer gender) {
+        if (gender == null || (gender != 0 && gender != 1 && gender != 2)) {
+            throw new BusinessException("客户性别格式不正确");
+        }
     }
 
     @Transactional

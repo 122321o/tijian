@@ -1,12 +1,10 @@
 package com.ljq.backend.controller;
 
-import com.ljq.backend.common.Result;
+import com.ljq.backend.result.Result;
 import com.ljq.backend.entity.Registration;
 import com.ljq.backend.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 
 @RestController
 @RequestMapping("/registration")

@@ -16,20 +16,20 @@ import java.util.stream.Collectors;
 public class CombinationDetailServiceImpl implements CombinationDetailService {
     private final CombinationDetailMapper combinationDetailMapper;
 
-    public void updateSelectedDetails(Integer combinationId, List<Integer> newDetailIds) {
+    public void updateSelectedDetails(Long combinationId, List<Long> newDetailIds) {
         // 1. 校验参数，使用局部变量存储 newDetailIds
-        List<Integer> detailIds = (newDetailIds == null) ? Collections.emptyList() : newDetailIds;
+        List<Long> detailIds = (newDetailIds == null) ? Collections.emptyList() : newDetailIds;
 
         // 2. 查询旧的项目ID列表
-        List<Integer> oldDetailIds = combinationDetailMapper.findDetailIdsByCombinationId(combinationId);
+        List<Long> oldDetailIds = combinationDetailMapper.findCombinationIdsByPackageId(combinationId);
 
         // 3. 计算需要删除的项（旧列表存在，新列表不存在）
-        List<Integer> toDelete = oldDetailIds.stream()
+        List<Long> toDelete = oldDetailIds.stream()
                 .filter(id -> !detailIds.contains(id)) // 使用局部变量 detailIds
                 .collect(Collectors.toList());
 
         // 4. 计算需要新增的项（新列表存在，旧列表不存在）
-        List<Integer> toAdd = detailIds.stream() // 使用局部变量 detailIds
+        List<Long> toAdd = detailIds.stream() // 使用局部变量 detailIds
                 .filter(id -> !oldDetailIds.contains(id))
                 .collect(Collectors.toList());
 

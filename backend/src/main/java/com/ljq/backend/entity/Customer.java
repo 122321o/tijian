@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Data
 public class Customer {
-    private String id;         //客户ID
+    private Long id;         //客户ID
     private String name;        //客户姓名
     private String idCard;      //客户身份证
     private Integer gender;     //客户性别

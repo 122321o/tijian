@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class PackageCombinationUpdateDTO {
-    private Integer PackageId;
-    private List<Integer> CombinationIds;
+    private Long PackageId;
+    private List<Long> CombinationIds;
 }

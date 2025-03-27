@@ -7,7 +7,7 @@
         INSERT INTO department (name, is_active)
         VALUES (#{name}, #{isActive})
     </insert>
-    <update id="updateById">
+    <update id="update">
         UPDATE department
         SET name = #{name}, is_active = #{isActive}
         WHERE id = #{id}
@@ -32,7 +32,19 @@
                 </if>
             </where>
     </select>
-    <select id="findById" resultType="com.ljq.backend.entity.Department">
+    <select id="pageQuery" resultType="com.ljq.backend.entity.Department">
+        SELECT id,name,is_active AS isActive
+        FROM department
+        <where>
+            <if test="name != null and name != ''">
+                `name` like concat('%', #{name},'%')
+            </if>
+            <if test="isActive!=null">
+                and is_active = #{isActive}
+            </if>
+        </where>
+    </select>
+    <select id="getById" resultType="com.ljq.backend.entity.Department">
         SELECT * FROM department
         WHERE id = #{id}
     </select>

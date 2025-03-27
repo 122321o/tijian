@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class CombinationDetailUpdateDTO {
-    private Integer combinationId;
-    private List<Integer> detailIds;
+    private Long combinationId;
+    private List<Long> detailIds;
 }

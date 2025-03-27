@@ -1,8 +1,8 @@
 package com.ljq.backend.service;
 
 import com.github.pagehelper.PageInfo;
-import com.ljq.backend.dto.page.CustomerPageDTO;
-import com.ljq.backend.dto.page.PageDTO;
+import com.ljq.backend.dto.CustomerPageDTO;
+import com.ljq.backend.dto.PageDTO;
 import com.ljq.backend.entity.Customer;
 
 import java.util.List;

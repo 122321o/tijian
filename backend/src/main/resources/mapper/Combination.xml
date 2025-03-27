@@ -7,7 +7,7 @@
         INSERT INTO combination (name, department_id, gender, is_active, price)
         VALUES (#{name}, #{departmentId}, #{gender}, #{isActive}, #{price})
     </insert>
-    <update id="updateById">
+    <update id="update">
         UPDATE combination
         SET
         <if test="name != null">name = #{name},</if>
@@ -18,17 +18,11 @@
         WHERE id = #{id}
     </update>
 
-    <delete id="deleteById">
+    <delete id="delete">
         DELETE FROM combination
         WHERE id = #{id}
     </delete>
-
-    <select id="findAllCombination" resultType="com.ljq.backend.entity.Combination">
-        SELECT id, name, is_active AS isActive, gender, price, department_id AS departmentId
-        FROM combination
-    </select>
-
-    <select id="findPageCombination" resultType="com.ljq.backend.dto.page.CombinationPageDTO">
+    <select id="page" resultType="com.ljq.backend.vo.CombinationVO">
         SELECT
         c.id,
         c.name,
@@ -50,13 +44,13 @@
             </if>
         </where>
     </select>
-    <select id="findById" resultType="com.ljq.backend.entity.Combination">
+    <select id="getById" resultType="com.ljq.backend.entity.Combination">
         SELECT id, name, is_active AS isActive, gender, price, department_id AS departmentId
         FROM Combination
         WHERE id = #{id}
     </select>
-    <select id="findAvailableDetails" resultType="com.ljq.backend.dto.DetailDTO">
-        SELECT d.id, d.name, d.is_active AS isActive, d.gender, d.price, d.department_id AS departmentId,department.name As departmentName
+    <select id="findAvailableDetails" resultType="com.ljq.backend.vo.DetailVO">
+        SELECT d.*,department.name AS departmentName
         FROM detail d
         LEFT JOIN department
         ON d.department_id = department.id
@@ -67,8 +61,8 @@
             WHERE cd.combination_id = #{combinationId}
         )
     </select>
-    <select id="findSelectedItems" resultType="com.ljq.backend.dto.DetailDTO">
-        SELECT d.id, d.name, d.is_active AS isActive, d.gender, d.price, d.department_id AS departmentId,department.name As departmentName
+    <select id="findSelectedItems" resultType="com.ljq.backend.vo.DetailVO">
+        SELECT d.*,department.name AS departmentName
         FROM detail d
         LEFT JOIN department
         ON d.department_id = department.id

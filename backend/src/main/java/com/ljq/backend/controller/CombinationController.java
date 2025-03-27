@@ -1,9 +1,9 @@
 package com.ljq.backend.controller;
 
-import com.ljq.backend.common.Result;
+import com.ljq.backend.dto.CombinationDTO;
+import com.ljq.backend.dto.CombinationPageQueryDTO;
+import com.ljq.backend.result.Result;
 import com.ljq.backend.dto.CombinationDetailUpdateDTO;
-import com.ljq.backend.dto.request.CombinationRequest;
-import com.ljq.backend.entity.Combination;
 import com.ljq.backend.service.CombinationDetailService;
 import com.ljq.backend.service.CombinationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,45 +19,75 @@ public class CombinationController {
     @Autowired
     private CombinationDetailService combinationDetailService;
 
-    @GetMapping("/findAll")
-    public Result findAllCombination() {
-        return Result.success(combinationService.findAllCombination());
+    /**
+     * 组合分页查询
+     * @param combinationPageQueryDTO
+     * @return
+     */
+    @GetMapping("/page")
+    public Result page(CombinationPageQueryDTO combinationPageQueryDTO) {
+        return Result.success(combinationService.page(combinationPageQueryDTO));
     }
 
-    @PostMapping("/findPage")
-    public Result findPageCombination(@RequestBody CombinationRequest request) {
-        return Result.success(combinationService.findPageCombination(request));
-    }
-
-    @PostMapping("/update")
-    public Result updateById(@RequestBody CombinationRequest request) {
-        combinationService.update(request);
+    /**
+     * 组合修改
+     * @param combinationDTO
+     * @return
+     */
+    @PutMapping("/update")
+    public Result update(@RequestBody CombinationDTO combinationDTO) {
+        combinationService.update(combinationDTO);
         return Result.success();
     }
 
-    @PostMapping("/delete/{id}")
-    public Result deleteById(@PathVariable Integer id) {
+    /**
+     * 组合删除
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/delete/{id}")
+    public Result deleteById(@PathVariable Long id) {
         combinationService.delete(id);
         return Result.success();
     }
 
-    //根据组合id获取相同科室的所有明细项目
-    @GetMapping("/loadAvailableItems/{id}")
-    public Result loadAvailableItems(@PathVariable Integer id) {
-        return Result.success(combinationService.findAvailableDetails(id));
-    }
-
-    @GetMapping("/loadSelectedItems/{id}")
-    public Result loadSelectedItems(@PathVariable Integer id) {
-        return Result.success(combinationService.findSelectedItems(id));
-    }
-
-    @PostMapping("/add")
-    public Result add(@RequestBody Combination combination) {
-        combinationService.add(combination);
+    /**
+     * 组合新增
+     * @param combinationDTO
+     * @return
+     */
+    @PostMapping("/save")
+    public Result save(@RequestBody CombinationDTO combinationDTO) {
+        combinationService.save(combinationDTO);
         return Result.success();
     }
 
+
+    /**
+     * 根据组合id获取相同科室的所有明细项目
+     * @param id
+     * @return
+     */
+    @GetMapping("/loadAvailableItems/{id}")
+    public Result loadAvailableItems(@PathVariable Long id) {
+        return Result.success(combinationService.findAvailableDetails(id));
+    }
+
+    /**
+     * 获取对应组合已选项目
+     * @param id
+     * @return
+     */
+    @GetMapping("/loadSelectedItems/{id}")
+    public Result loadSelectedItems(@PathVariable Long id) {
+        return Result.success(combinationService.findSelectedItems(id));
+    }
+
+    /**
+     * 组合明细关系更新
+     * @param payload
+     * @return
+     */
     @PostMapping("/updateSelectedDetails")
     public Result updateSelectedDetails(@RequestBody CombinationDetailUpdateDTO payload) {
         combinationDetailService.updateSelectedDetails(payload.getCombinationId(), payload.getDetailIds());

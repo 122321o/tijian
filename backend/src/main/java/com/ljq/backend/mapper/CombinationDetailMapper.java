@@ -12,10 +12,10 @@ public interface CombinationDetailMapper {
     void batchInsert(List<CombinationDetail> details);
     
     // 根据组合ID和项目ID列表删除关联
-    void deleteByCombinationAndDetails(@Param("combinationId") Integer combinationId,
-                                      @Param("detailIds") List<Integer> detailIds);
+    void deleteByCombinationAndDetails(@Param("combinationId") Long combinationId,
+                                      @Param("detailIds") List<Long> detailIds);
     
     // 查询组合的已关联项目ID列表
-    List<Integer> findDetailIdsByCombinationId(@Param("combinationId") Integer combinationId);
+    List<Long> findCombinationIdsByPackageId(@Param("combinationId") Long combinationId);
 
 }

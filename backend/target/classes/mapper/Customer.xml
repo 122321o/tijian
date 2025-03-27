@@ -46,7 +46,7 @@
     <select id="selectAll" resultType="com.ljq.backend.entity.Customer">
         SELECT * FROM customer
     </select>
-    <select id="findPageCustomer" resultType="com.ljq.backend.dto.page.CustomerPageDTO">
+    <select id="findPageCustomer" resultType="com.ljq.backend.dto.CustomerPageDTO">
         SELECT
         c.id,
         c.name,

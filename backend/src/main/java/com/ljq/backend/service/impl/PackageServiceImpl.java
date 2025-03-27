@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ljq.backend.dto.CombinationDTO;
 import com.ljq.backend.dto.PackageDTO;
-import com.ljq.backend.dto.page.PageDTO;
+import com.ljq.backend.dto.PageDTO;
 import com.ljq.backend.mapper.PackageMapper;
 import com.ljq.backend.service.PackageService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ public class PackageServiceImpl implements PackageService {
     }
 
     @Override
-    public void deletePackage(Integer id) {
+    public void deletePackage(Long id) {
         packageMapper.deletePackage(id);
     }
 
@@ -44,7 +44,7 @@ public class PackageServiceImpl implements PackageService {
     }
 
     @Override
-    public List<CombinationDTO> findSelectedItems(Integer packageId) {
+    public List<CombinationDTO> findSelectedItems(Long packageId) {
         // 1. 根据组合 ID 查找套餐信息
         PackageDTO packageDTO = packageMapper.findById(packageId);
         if (packageDTO == null) {
@@ -56,7 +56,7 @@ public class PackageServiceImpl implements PackageService {
     }
 
     @Override
-    public List<CombinationDTO> findAvailableDetails(Integer packageId) {
+    public List<CombinationDTO> findAvailableDetails(Long packageId) {
         // 1. 根据组合 ID 查找套餐信息
         PackageDTO packageDTO = packageMapper.findById(packageId);
         if (packageDTO == null) {
@@ -68,7 +68,7 @@ public class PackageServiceImpl implements PackageService {
     }
 
     @Override
-    public List<CombinationDTO> getCombinationsByPackageId(Integer packageId) {
+    public List<CombinationDTO> getCombinationsByPackageId(Long packageId) {
         return packageMapper.getCombinationsByPackageId(packageId);
     }
 }

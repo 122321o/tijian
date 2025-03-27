@@ -8,7 +8,7 @@
         VALUES (#{name}, #{gender}, #{price}, #{departmentId})
     </insert>
 
-    <update id="updateById">
+    <update id="update">
         UPDATE detail
         SET
         <if test="name != null">name = #{name},</if>
@@ -23,12 +23,7 @@
         WHERE id = #{id}
     </delete>
 
-    <select id="findAllDetail" resultType="com.ljq.backend.entity.Detail">
-        SELECT id, name, is_active AS isActive, gender, price, department_id AS departmentId
-        FROM detail
-    </select>
-
-    <select id="findPageDetail" resultType="com.ljq.backend.dto.page.DetailPageDTO">
+    <select id="pageQuery" resultType="com.ljq.backend.vo.DetailVO">
         SELECT
         d.id,
         d.name,

@@ -1,26 +1,48 @@
 package com.ljq.backend.service;
 
 import com.github.pagehelper.PageInfo;
+import com.ljq.backend.dto.CombinationDTO;
+import com.ljq.backend.dto.CombinationPageQueryDTO;
 import com.ljq.backend.dto.DetailDTO;
-import com.ljq.backend.dto.page.PageDTO;
-import com.ljq.backend.dto.request.CombinationRequest;
-import com.ljq.backend.entity.Combination;
+import com.ljq.backend.result.PageResult;
+import com.ljq.backend.vo.DetailVO;
 
 import java.util.List;
 
 public interface CombinationService {
 
-    List<Combination> findAllCombination();
+    /**
+     * 组合分页查询
+     * @param combinationPageQueryDTO
+     * @return
+     */
+    PageResult page(CombinationPageQueryDTO combinationPageQueryDTO);
 
-    PageInfo<PageDTO> findPageCombination(CombinationRequest request);
+    /**
+     * 组合修改
+     * @param combinationDTO
+     */
+    void update(CombinationDTO combinationDTO);
 
-    void update(CombinationRequest request);
+    /**
+     * 组合删除
+     * @param id
+     */
+    void delete(Long id);
 
-    void delete(Integer id);
+    /**
+     * 组合新增
+     * @param combinationDTO
+     */
+    void save(CombinationDTO combinationDTO);
 
-    List<DetailDTO> findAvailableDetails(Integer combinationId);
+    /**
+     * 获取对应科室所有项目
+     * @param combinationId
+     * @return
+     */
+    List<DetailVO> findAvailableDetails(Long combinationId);
 
-    List<DetailDTO> findSelectedItems(Integer combinationId);
+    List<DetailVO> findSelectedItems(Long combinationId);
 
-    void add(Combination combination);
 }

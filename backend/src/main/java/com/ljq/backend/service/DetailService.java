@@ -1,21 +1,33 @@
 package com.ljq.backend.service;
 
-import com.github.pagehelper.PageInfo;
-import com.ljq.backend.dto.page.PageDTO;
-import com.ljq.backend.dto.request.DetailRequest;
-import com.ljq.backend.entity.Detail;
-
-import java.util.List;
+import com.ljq.backend.dto.DetailDTO;
+import com.ljq.backend.dto.DetailPageQueryDTO;
+import com.ljq.backend.result.PageResult;
 
 public interface DetailService {
 
-    List<Detail> findAllDetail();
+    /**
+     * 明细分页查询
+     * @param detailPageQueryDTO
+     * @return
+     */
+    PageResult pageQuery(DetailPageQueryDTO detailPageQueryDTO);
 
-    PageInfo<PageDTO> findPageDetail(DetailRequest request);
+    /**
+     * 明细修改
+     * @param detailDTO
+     */
+    void update(DetailDTO detailDTO);
 
-    void update(DetailRequest request);
+    /**
+     * 明细删除
+     * @param id
+     */
+    void delete(Long id);
 
-    void delete(Integer id);
-
-    void addDetail(Detail detail);
+    /**
+     * 明细新增
+     * @param detailDTO
+     */
+    void save(DetailDTO detailDTO);
 }

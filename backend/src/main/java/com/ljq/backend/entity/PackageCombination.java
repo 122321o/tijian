@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PackageCombination {
-    private Integer packageId;
-    private Integer combinationId;
+    private Long packageId;
+    private Long combinationId;
 }

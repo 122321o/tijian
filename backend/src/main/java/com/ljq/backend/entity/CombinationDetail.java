@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CombinationDetail {
-    private Integer combinationId;
-    private Integer detailId;
+    private Long combinationId;
+    private Long detailId;
 }

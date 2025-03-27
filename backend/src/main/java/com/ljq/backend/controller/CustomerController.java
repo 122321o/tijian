@@ -1,10 +1,9 @@
 package com.ljq.backend.controller;
 
-import com.ljq.backend.common.Result;
-import com.ljq.backend.dto.page.CustomerPageDTO;
+import com.ljq.backend.result.Result;
+import com.ljq.backend.dto.CustomerPageDTO;
 import com.ljq.backend.entity.Customer;
 import com.ljq.backend.service.CustomerService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

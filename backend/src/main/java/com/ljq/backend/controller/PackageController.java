@@ -1,9 +1,9 @@
 package com.ljq.backend.controller;
 
-import com.ljq.backend.common.Result;
+import com.ljq.backend.result.Result;
 import com.ljq.backend.dto.PackageCombinationUpdateDTO;
 import com.ljq.backend.dto.PackageDTO;
-import com.ljq.backend.dto.page.PackagePageDTO;
+import com.ljq.backend.dto.PackagePageQueryDTO;
 import com.ljq.backend.service.PackageCombinationService;
 import com.ljq.backend.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class PackageController {
     }
 
     @PostMapping("/findPage")
-    public Result findPagePackages(@RequestBody PackagePageDTO packageDTO) {
+    public Result findPagePackages(@RequestBody PackagePageQueryDTO packageDTO) {
         return Result.success(packageService.findPagePackages(packageDTO));
     }
 
@@ -36,7 +36,7 @@ public class PackageController {
     }
 
     @PostMapping("/delete/{id}")
-    public Result deletePackage(@PathVariable Integer id) {
+    public Result deletePackage(@PathVariable Long id) {
         packageService.deletePackage(id);
         return Result.success();
     }
@@ -48,12 +48,12 @@ public class PackageController {
     }
 
     @GetMapping("/loadSelectedItems/{id}")
-    public Result loadSelectedItems(@PathVariable Integer id) {
+    public Result loadSelectedItems(@PathVariable Long id) {
         return Result.success(packageService.findSelectedItems(id));
     }
 
     @GetMapping("/loadAvailableItems/{id}")
-    public Result loadAvailableItems(@PathVariable Integer id) {
+    public Result loadAvailableItems(@PathVariable Long id) {
         return Result.success(packageService.findAvailableDetails(id));
     }
 
@@ -64,7 +64,7 @@ public class PackageController {
     }
 
     @GetMapping("/details/{id}")
-    public Result getCombinationsByPackageId(@PathVariable Integer id) {
+    public Result getCombinationsByPackageId(@PathVariable Long id) {
         return Result.success(packageService.getCombinationsByPackageId(id));
     }
 }

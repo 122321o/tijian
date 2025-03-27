@@ -23,7 +23,7 @@
     </delete>
 
     <!-- 查询组合关联的项目ID列表 -->
-    <select id="findCombinationIdsByPackageId" resultType="java.lang.Integer">
+    <select id="findCombinationIdsByPackageId" resultType="java.lang.Long">
         SELECT detail_id
         FROM combination_detail
         WHERE combination_id = #{combinationId}

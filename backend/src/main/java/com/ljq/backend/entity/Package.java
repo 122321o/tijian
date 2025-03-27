@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 @Data
 public class Package {
-    private Integer id;
+    private Long id;
     private String name;
     private Integer isActive;
     private Integer gender;

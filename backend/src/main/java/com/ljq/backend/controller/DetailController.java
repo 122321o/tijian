@@ -1,45 +1,66 @@
 package com.ljq.backend.controller;
 
-import com.ljq.backend.common.Result;
-import com.ljq.backend.dto.request.DetailRequest;
-import com.ljq.backend.entity.Detail;
+import com.ljq.backend.dto.DetailDTO;
+import com.ljq.backend.dto.DetailPageQueryDTO;
+import com.ljq.backend.result.PageResult;
+import com.ljq.backend.result.Result;
 import com.ljq.backend.service.DetailService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/detail")
 @RestController
+@Slf4j
 public class DetailController {
 
     @Autowired
     private DetailService detailService;
 
-    @GetMapping("/findAll")
-    public Result findAllDetail() {
-        return Result.success(detailService.findAllDetail());
+    /**
+     * 明细分页查询
+     * @param detailPageQueryDTO
+     * @return
+     */
+    @GetMapping("/page")
+    public Result<PageResult> page(DetailPageQueryDTO detailPageQueryDTO) {
+        log.info("分页查询：{}", detailPageQueryDTO);
+        PageResult pageResult = detailService.pageQuery(detailPageQueryDTO);
+        return Result.success(pageResult);
     }
 
-    @PostMapping("/findPage")
-    public Result findPageDetail(@RequestBody DetailRequest request) {
-        return Result.success(detailService.findPageDetail(request));
-    }
-
-    @PostMapping("/update")
-    public Result updateById(@RequestBody DetailRequest request) {
-        detailService.update(request);
+    /**
+     * 修改明细
+     * @param detailDTO
+     * @return
+     */
+    @PutMapping("/update")
+    public Result update(@RequestBody DetailDTO detailDTO) {
+        log.info("明细修改：{}", detailDTO);
+        detailService.update(detailDTO);
         return Result.success();
     }
 
-    @PostMapping("/delete/{id}")
-    public Result deleteById(@PathVariable Integer id) {
+    /**
+     * 删除明细
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/delete/{id}")
+    public Result deleteById(@PathVariable Long id) {
         detailService.delete(id);
         return Result.success();
     }
 
-    // 新增明细
-    @PostMapping("/add")
-    public Result addDepartment(@RequestBody Detail detail) {
-        detailService.addDetail(detail);
+    /**
+     * 明细新增
+     * @param detailDTO
+     * @return
+     */
+    @PostMapping("/save")
+    public Result save(@RequestBody DetailDTO detailDTO) {
+        log.info("新增明细：{}", detailDTO);
+        detailService.save(detailDTO);
         return Result.success();
     }
 }
